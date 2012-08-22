@@ -72,17 +72,19 @@ describe Integer do
     115.charCount.should == 20
   end
   
-  it "should sum numbers 1 to 5 to 19 letters" do
-    (1..5).charCount.should == 19   
-  end
-  
   it "should sum ninehundredandninetynine as 24" do
     999.charCount.should == 24
+  end
+  
+end
+
+describe Range do
+  it "should sum numbers 1 to 5 to 19 letters" do
+    (1..5).charCount.should == 19   
   end
   
   it "should output the sum of the length of the first 1000 numbers" do
     puts (1..1000).charCount
   end
 end
-
 
