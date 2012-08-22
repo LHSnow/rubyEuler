@@ -1,80 +1,67 @@
 class Integer
-  
-  def charLength(number)
-    lengths = {
-      0 => 0,
-      1 => 3, #one
-      2 => 3, #two
-      3 => 5,
-      4 => 4,
-      5 => 4,
-      6 => 3,
-      7 => 5,
-      8 => 5,
-      9 => 4,
-      10 => 3,
-      11 => 6, #eleven
-      12 => 6,
-      13 => 8, #thirteen
-      14 => 8,
-      15 => 7,
-      16 => 7,
-      17 => 9,
-      18 => 8,
-      19 => 8,
-      20 => 6, #twenty
-      30 => 6, #thirty
-      40 => 6, #fourty
-      50 => 5, #fifty
-      60 => 5,
-      70 => 7, #seventy
-      80 => 6, #eighty
-      90 => 6, #ninety
-      100 => 7, #hundred
-      1000 => 8 #thousand
-    }
-    lengths[number]
-  end
-      
+  @@charLengths = [#row is position (from least significant), col is number
+    [0,3,3,5,4,4,3,5,5,4],
+    [0,3,6,6,5,5,5,7,6,6],
+    [0,13,13,15,14,14,13,15,15,14],
+    [0,11,0,0,0,0,0,0,0] #onethousand
+  ]
+    
   def charCount
-    
-    #thousands = self / 1000
-    #hundreds = self / 100
-    #tens = self / 10 % 10
-    #ones = self / 10
-    
-    
-    
-    #charLength[self]
-  end
-  
-  def ones
-    charLength (self % 10)
-  end
-  
-  def tens
-    charLength (self / 10 % 10)
-  end
-  
-  def thousands
-    number = self / 1000
-    if number > 0
-      charLength(number) + charLength(1000)
+    this = self
+    count = 0
+    position = 0
+    while this > 0
+      reminder = this % 10
+      this -= reminder
+      this = this / 10
+      if ((reminder == 1) && ([4,6,7,8,9].include? self % 10))
+        #[0,3,3,3,4,3,4,4,4,4] special cases for eleven-nineteen
+        count += 4
+      else
+        count += @@charLengths[position][reminder]
+        #puts "self:#{self},pos:#{position},rem:#{reminder},count:#{count}"
+      end
+      position += 1
     end
+    count
   end
   
+end
+
+class Range 
+  def charCount
+    count = 0
+    self.each do |n| 
+      count += n.charCount
+    end 
+    count
+  end
 end
 
 describe Integer do
 
   it "should sum one as 3" do
-    1.ones.should == 3
+    1.charCount.should == 3
   end
   
-  it "should sum 11 as 
-
+  it "should sum ten as 3" do
+    10.charCount.should == 3
+  end
+  
+  it "should sum eleven as 6" do
+    11.charCount.should == 6
+  end
+  
+  it "should sum fourteen as 8" do
+    14.charCount.should == 8
+  end
+  
+  it "should sum one hundred and ten as 16" do
+    110.charCount.should == 16
+  end
+  
   it "should sum one thousand as 11" do
-    1000.thousands.should == 11
+    1000.charCount.should == 11
   end
 
   it "should sum three hundred and forty-two to 23 letters" do
@@ -86,11 +73,15 @@ describe Integer do
   end
   
   it "should sum numbers 1 to 5 to 19 letters" do
-    
+    (1..5).charCount.should == 19   
+  end
+  
+  it "should sum ninehundredandninetynine as 24" do
+    999.charCount.should == 24
   end
   
   it "should output the sum of the length of the first 1000 numbers" do
-  
+    puts (1..1000).charCount
   end
 end
 
