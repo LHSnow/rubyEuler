@@ -2,7 +2,7 @@ class Integer
   @@charLengths = [#row is position (from least significant), col is number
     [0,3,3,5,4,4,3,5,5,4],
     [0,3,6,6,5,5,5,7,6,6],
-    [0,13,13,15,14,14,13,15,15,14],
+    [0,10,10,12,11,11,10,12,12,11],
     [0,11,0,0,0,0,0,0,0] #onethousand
   ]
     
@@ -18,6 +18,10 @@ class Integer
         #[0,3,3,3,4,3,4,4,4,4] special cases for eleven-nineteen
         count += 4
       else
+        if((position == 2) && (self % 100 > 0))
+          #and when tens/ones are not 00 
+          count += 3
+        end
         count += @@charLengths[position][reminder]
         #puts "self:#{self},pos:#{position},rem:#{reminder},count:#{count}"
       end
@@ -58,6 +62,10 @@ describe Integer do
   
   it "should sum one hundred and ten as 16" do
     110.charCount.should == 16
+  end
+  
+  it "should sum two hundred as 10" do
+    200.charCount.should == 10
   end
   
   it "should sum one thousand as 11" do
