@@ -14,8 +14,8 @@ class Integer
       reminder = this % 10
       this -= reminder
       this = this / 10
-      if ((reminder == 1) && ([4,6,7,9].include? self % 10))
-        #[0,3,3,3,4,3,4,4,4,4] special cases for eleven-nineteen
+      if ((position == 1) && (reminder == 1) && ([4,6,7,9].include? self % 10))
+        #[0,3,3,3,4,3,4,4,3,4] special cases for eleven-nineteen
         count += 4
       else
         if((position == 2) && (self % 100 > 0))
@@ -116,8 +116,52 @@ describe Integer do
     18.charCount.should == 8
   end
   
+  it "should sum nineteen as 8" do
+    19.charCount.should == 8
+  end
+  
+  it "should sum twenty as 6" do
+    20.charCount.should == 6
+  end
+  
+  it "should sum thirty as 6" do
+    30.charCount.should == 6
+  end
+  
+  it "should sum forty as 5" do
+    40.charCount.should == 5
+  end
+  
+  it "should sum fortyfour as 9" do
+    44.charCount.should == 9
+  end
+  
+  it "should sum fifty as 5" do
+    50.charCount.should == 5
+  end
+  
+  it "should sum sixty as 5" do
+    60.charCount.should == 5
+  end
+  
+  it "should sum seventy as 7" do
+    70.charCount.should == 7
+  end
+  
+  it "should sum eighty as 6" do
+    80.charCount.should == 6
+  end
+  
+  it "should sum ninety as 6" do
+    90.charCount.should == 6
+  end
+  
   it "should sum one hundred and ten as 16" do
     110.charCount.should == 16
+  end
+  
+  it "should sum one hundred and forty as 18" do
+    140.charCount.should == 18
   end
   
   it "should sum two hundred as 10" do
