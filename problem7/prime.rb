@@ -41,5 +41,15 @@ describe Integer do
     end
     puts number
   end
+  
+  it "should sum the primes up to two million (problem 10)" do
+    sum = 2
+    number = 1
+    while number < 2000000
+      number += 2
+      sum += number if number.prime?
+    end
+    puts sum
+  end
 end
 
