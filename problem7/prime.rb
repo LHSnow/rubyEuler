@@ -12,6 +12,18 @@ class Integer
     return true;
   end
   
+  def circular_prime?
+    str = self.to_s
+    this = []
+    str.each_char { |c| this << c.to_i }
+    this.permutation { |p|
+      puts p.join.to_i
+      puts p.join.to_i.prime?
+      return false unless p.join.to_i.prime?
+    }
+    return true;
+  end
+  
 end
 
 
@@ -45,11 +57,15 @@ describe Integer do
   it "should sum the primes up to two million (problem 10)" do
     sum = 2
     number = 1
-    while number < 2000000
+    while number < 200
       number += 2
       sum += number if number.prime?
     end
     puts sum
   end
+  
+  it "should find the number of circular primes below one million (problem 35)" do
+    197.circular_prime?.should == true
+  end 
 end
 
