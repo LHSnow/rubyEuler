@@ -13,15 +13,26 @@ class Integer
   end
   
   def circular_prime?
+    this = self.to_a
+    count = 0
+    while count < this.size
+      return false unless this.join.to_i.prime?
+      this.rotate!
+      count += 1
+    end
+    return true;
+  end
+  
+  def to_a
     str = self.to_s
     this = []
     str.each_char { |c| this << c.to_i }
-    this.permutation { |p|
-      puts p.join.to_i
-      puts p.join.to_i.prime?
-      return false unless p.join.to_i.prime?
-    }
-    return true;
+    this
+  end
+  
+  def pandigital?
+    this = self.to_a
+    this.uniq!.nil?
   end
   
 end
@@ -65,7 +76,23 @@ describe Integer do
   end
   
   it "should find the number of circular primes below one million (problem 35)" do
-    197.circular_prime?.should == true
+    circulars = [2, 3, 5, 7, 11, 13, 17, 31, 37, 71, 73, 79, 97, 197]
+    circulars.each { |c| c.circular_prime?.should == true }
+    
+    count = 1 #start with counting 2, to avoid checking even numbers 
+    number = 1
+    while number < 1000
+      number += 2
+      #verify count
+      count.should == 13 if number == 100
+      count += 1 if number.circular_prime?
+    end
+    puts count
   end 
+  
+  it "should find the largest pandigital prime (problem 41)" do
+    2143.pandigital?.should == true
+    1234.pandigital?.should == true
+  end
 end
 
