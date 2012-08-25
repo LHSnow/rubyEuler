@@ -32,6 +32,9 @@ class Integer
   
   def pandigital?
     this = self.to_a
+    (1..(this.size)).each {|n| 
+      return false unless this.include?(n) 
+    }
     this.uniq!.nil?
   end
   
@@ -93,6 +96,17 @@ describe Integer do
   it "should find the largest pandigital prime (problem 41)" do
     2143.pandigital?.should == true
     1234.pandigital?.should == true
+    1230.pandigital?.should == false
+    1235.pandigital?.should == false
+    
+    number = 1246573
+    
+    while number < 987654321 do
+      number += 2
+      return number if number.pandigital? && number.prime?
+    end
+    #largest number is 7652413
+    #should be done by first finding all the primes below 987654321 and then check for pandigital
   end
 end
 
