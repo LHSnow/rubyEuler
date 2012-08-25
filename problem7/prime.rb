@@ -40,6 +40,22 @@ class Integer
   
 end
 
+def Prime
+  extend Integer
+  @@known
+  
+  def upto(limit)
+    return @@known unless @@known.nil?
+    @@known =* (2..limit)
+    primes = @@known 
+    primes.each { |n|
+      @@known.delete_if { }
+    }
+    @@known
+  end
+
+end
+
 
 describe Integer do
   it "should say 2 is prime" do
