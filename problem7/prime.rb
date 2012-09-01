@@ -40,18 +40,20 @@ class Integer
   
 end
 
-def Prime
-  extend Integer
-  @@known
+class Prime
   
   def upto(limit)
-    return @@known unless @@known.nil?
-    @@known =* (2..limit)
-    primes = @@known 
-    primes.each { |n|
-      @@known.delete_if { }
-    }
-    @@known
+    primes = Array.new(limit+2,true)
+    for i in (0..Math.sqrt(limit)) do
+      primes[i] = false if i < 2
+      if primes[i]
+        multiples = Range.new(i**2,limit) 
+        for j in multiples.step(i) do
+          primes[j] = false 
+        end
+      end
+    end
+    primes
   end
 
 end
@@ -117,12 +119,24 @@ describe Integer do
     
     number = 1246573
     
-    while number < 987654321 do
-      number += 2
-      return number if number.pandigital? && number.prime?
-    end
+    #while number < 987654321 do
+    #  number += 2
+    #  puts number if number.pandigital? && number.prime?
+    #end
     #largest number is 7652413
     #should be done by first finding all the primes below 987654321 and then check for pandigital
   end
+  
 end
 
+describe Prime do
+  it "should find all primes up to 30" do
+    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    nonPrimes = [0,1,4,6,8,9,10,12,14,15,16,18,20,21,22,24,25,26,27,28,30]
+    sieve = Prime.new.upto(30)
+    sieve.each_index { |i| 
+      primes.include?(i).should == true 
+      nonPrimes.include?(i).should == false
+    }
+  end
+end
