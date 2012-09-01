@@ -119,6 +119,12 @@ describe Integer do
     
     number = 1246573
     
+    sieve = Prime.new.upto(987654321).reverse
+    
+    sieve.each_index { |i|
+      return i if i.pandigital?
+    }
+    
     #while number < 987654321 do
     #  number += 2
     #  puts number if number.pandigital? && number.prime?
