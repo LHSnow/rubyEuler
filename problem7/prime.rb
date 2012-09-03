@@ -43,17 +43,17 @@ end
 class Prime
   
   def upto(limit)
-    primes = Array.new(limit+1,true)
+    numbers = Array.new(limit+1,true)
     for i in (0..Math.sqrt(limit)) do
-      primes[i] = false if i < 2
-      if primes[i]
+      numbers[i] = false if i < 2
+      if numbers[i]
         multiples = Range.new(i**2,limit) 
         for j in multiples.step(i) do
-          primes[j] = false 
+          numbers[j] = false 
         end
       end
     end
-    primes
+    numbers
   end
 
 end
@@ -119,10 +119,13 @@ describe Integer do
     
     number = 1246573
     
-    sieve = Prime.new.upto(987654321).reverse
+    sieve = Prime.new.upto(87654321).reverse
     
     sieve.each_index { |i|
-      return i if i.pandigital?
+      if sieve[i] && i.pandigital?
+        i.should == 7652413
+        break
+      end
     }
     
     #while number < 987654321 do
