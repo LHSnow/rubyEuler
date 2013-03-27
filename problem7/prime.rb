@@ -89,7 +89,7 @@ describe Integer do
   it "should sum the primes up to two million (problem 10)" do
     sum = 2
     number = 1
-    while number < 200
+    while number < 200 # 0000 (omitted for test speed)
       number += 2
       sum += number if number.prime?
     end
@@ -102,7 +102,7 @@ describe Integer do
     
     count = 1 #start with counting 2, to avoid checking even numbers 
     number = 1
-    while number < 1000
+    while number < 1000 # 000 (omitted for test speed)
       number += 2
       #verify count
       count.should == 13 if number == 100
@@ -128,12 +128,15 @@ describe Integer do
       end
     }
     
+    #alternate:
     #while number < 987654321 do
     #  number += 2
     #  puts number if number.pandigital? && number.prime?
     #end
     #largest number is 7652413
-    #should be done by first finding all the primes below 987654321 and then check for pandigital
+    
+    #better strategy: finding all the primes below 987654321 and then check for pandigital 
+    #(as done in the uncommented version above)
   end
   
 end
